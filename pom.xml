@@ -12,7 +12,16 @@
 	<artifactId>feign-hystrix</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>feign-hystrix</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Demo project using feign and hystrix</description>
+
+	<url>https://github.com/nortthon/feign-hystrix</url>
+	<developers>
+		<developer>
+			<id>geeks</id>
+			<name>Lucas Augusto</name>
+			<email>nortthon@gmail.com</email>
+		</developer>
+	</developers>
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -70,6 +79,33 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>1.0.1</version>
+				<configuration>
+					<from>
+						<image>openjdk:alpine</image>
+					</from>
+					<to>
+						<image>nortthon/${project.artifactId}</image>
+						<tags>
+							<tag>${project.version}</tag>
+							<tag>latest</tag>
+						</tags>
+					</to>
+					<container>
+						<ports>
+							<port>8080</port>
+						</ports>
+					</container>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>io.fabric8</groupId>
+				<artifactId>fabric8-maven-plugin</artifactId>
+				<version>3.5.41</version>
 			</plugin>
 		</plugins>
 	</build>

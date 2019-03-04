@@ -9,3 +9,7 @@ feign:
     enabled: true
   slave:
     url: http://localhost:8080
+
+spring:
+  application:
+    name: feign-hystrix
