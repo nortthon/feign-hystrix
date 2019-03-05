@@ -2,6 +2,7 @@
 
 ### Build docker image
 
+`eval $(minikube docker-env)` \
 `mvn compile jib:dockerBuild`
 
 ### Build Chart
@@ -12,10 +13,14 @@
 
 `mvn fabric8:deploy`
 
-### Deploy using Helm
+ou
 
 `helm upgrade --install feign-hystrix target/fabric8/helm/kubernetes/feign-hystrix/`
 
 ### Undeploy
 
 `mvn fabric8:undeploy`
+
+ou 
+
+`helm delete feign-hystrix`
