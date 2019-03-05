@@ -1,0 +1,10 @@
+- name: nortthon
+  enricher:
+    includes:
+      - fmp-name
+  generator:
+    includes:
+      - spring-boot
+  watcher:
+    includes:
+      - spring-boot

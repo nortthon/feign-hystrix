@@ -3,8 +3,40 @@ kind: Deployment
 metadata:
   name: ${project.artifactId}
 spec:
+  replicas: 1
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: ${project.artifactId}
   template:
+    metadata:
+      labels:
+        app: ${project.artifactId}
     spec:
       containers:
-        - name: ${project.artifactId}
-          image: nortthon/feign-hystrix:latest
+        - env:
+            - name: KUBERNETES_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          image: nortthon/${project.artifactId}:latest
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 180
+          name: ${project.artifactId}
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 10
+          securityContext:
+            privileged: false
