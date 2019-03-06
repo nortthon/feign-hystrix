@@ -19,7 +19,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: nortthon/${project.artifactId}:${git.commit.id.describe}
+          image: nortthon/${project.artifactId}:${git.commit.id.abbrev}
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
