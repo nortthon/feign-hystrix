@@ -37,6 +37,9 @@ spec:
               protocol: TCP
           securityContext:
             privileged: false
+          envFrom:
+            - secretRef:
+                name: ${project.artifactId}
           env:
             - name: KUBERNETES_NAMESPACE
               valueFrom:
