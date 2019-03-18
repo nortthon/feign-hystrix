@@ -1,7 +1,8 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ${project.artifactId}
+  namespace: ${project.artifactId}
 spec:
   replicas: 1
   revisionHistoryLimit: 2
@@ -13,12 +14,9 @@ spec:
       labels:
         app: ${project.artifactId}
     spec:
+      serviceAccountName: feign-hystrix
       containers:
-        - env:
-            - name: KUBERNETES_NAMESPACE
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.namespace
+        - name: ${project.artifactId}
           image: nortthon/${project.artifactId}:${git.commit.id.abbrev}
           imagePullPolicy: IfNotPresent
           livenessProbe:
@@ -27,16 +25,20 @@ spec:
               port: 8080
               scheme: HTTP
             initialDelaySeconds: 180
-          name: ${project.artifactId}
-          ports:
-            - containerPort: 8080
-              name: http
-              protocol: TCP
           readinessProbe:
             httpGet:
               path: /actuator/health
               port: 8080
               scheme: HTTP
             initialDelaySeconds: 10
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
           securityContext:
             privileged: false
+          env:
+            - name: KUBERNETES_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace

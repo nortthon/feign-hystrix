@@ -1,3 +1,0 @@
-kind: Template
-parameters:
-  - name: PROJECT_NAMESPACE
